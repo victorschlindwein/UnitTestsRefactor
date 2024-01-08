@@ -29,7 +29,7 @@ namespace Store.Domain.Commands
         {
             AddNotifications(new Contract()
                 .Requires()
-                .HasLen(Customer, 11, "Customer", "Cliente inválido")
+                .HasMinLen(Customer, 3, "Customer", "Cliente inválido")
                 .HasLen(ZipCode, 8, "ZipCode", "CEP inválido")
             );
         }
