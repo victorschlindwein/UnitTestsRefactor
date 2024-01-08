@@ -23,6 +23,11 @@ namespace Store.Tests.Handlers
             _productRepository = new FakeProductRepository();
         }
 
+        public void CreateOrderItemsCommand(CreateOrderCommand command)
+        {
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+        }
+
         [TestMethod]
         [TestCategory("Handlers")]
         public void DadoClienteInexistentePedidoNaoDeveSerGerado()
@@ -33,8 +38,8 @@ namespace Store.Tests.Handlers
                 ZipCode = "18423568",
                 PromoCode = "12345678"
             };
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+
+            CreateOrderItemsCommand(command);
             command.Validate();
 
             Assert.AreEqual(false, command.Valid);
@@ -50,8 +55,7 @@ namespace Store.Tests.Handlers
                 ZipCode = null,
                 PromoCode = "12345678"
             };
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            CreateOrderItemsCommand(command);
             command.Validate();
 
             Assert.AreEqual(false, command.Valid);
@@ -65,13 +69,11 @@ namespace Store.Tests.Handlers
             {
                 Customer = "18423568",
                 ZipCode = "18423568",
-                PromoCode = ""
+                PromoCode = null
             };
-
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-
+            CreateOrderItemsCommand(command);
             command.Validate();
+            
             Assert.AreEqual(true, command.Valid);
         }
 
@@ -93,8 +95,8 @@ namespace Store.Tests.Handlers
                 _productRepository,
                 _orderRepository
             );
-
             handler.Handle(command);
+            
             Assert.AreEqual(false, command.Valid);
         }
 
@@ -108,10 +110,9 @@ namespace Store.Tests.Handlers
                 ZipCode = "18423568",
                 PromoCode = "12345678"
             };
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            CreateOrderItemsCommand(command);
             command.Validate();
-
+            
             Assert.AreEqual(command.Valid, false);
         }
 
@@ -125,9 +126,7 @@ namespace Store.Tests.Handlers
                 ZipCode = "13411080",
                 PromoCode = "12345678"
             };
-
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
-            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            CreateOrderItemsCommand(command);
 
             var handler = new OrderHandler(
                 _customerRepository,
@@ -136,8 +135,8 @@ namespace Store.Tests.Handlers
                 _productRepository,
                 _orderRepository
             );
-
             handler.Handle(command);
+            
             Assert.AreEqual(true, command.Valid);
         }
     }
