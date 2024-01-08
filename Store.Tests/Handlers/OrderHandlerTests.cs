@@ -27,28 +27,72 @@ namespace Store.Tests.Handlers
         [TestCategory("Handlers")]
         public void DadoClienteInexistentePedidoNaoDeveSerGerado()
         {
-            Assert.Fail();
+            var command = new CreateOrderCommand
+            {
+                Customer = null,
+                ZipCode = "18423568",
+                PromoCode = "12345678"
+            };
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            command.Validate();
+
+            Assert.AreEqual(false, command.Valid);
         }
 
         [TestMethod]
         [TestCategory("Handlers")]
-        public void DadoCepInvalidoPedidoDeveSerGeradoNormalmente()
+        public void DadoCepInvalidoPedidoNaoDeveSerGerado()
         {
-            Assert.Fail();
+            var command = new CreateOrderCommand
+            {
+                Customer = "18423568",
+                ZipCode = null,
+                PromoCode = "12345678"
+            };
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            command.Validate();
+
+            Assert.AreEqual(false, command.Valid);
         }
 
         [TestMethod]
         [TestCategory("Handlers")]
         public void DadoPromocodeInexistentePedidoDeveSerGeradoNormalmente()
         {
-            Assert.Fail();
+            var command = new CreateOrderCommand
+            {
+                Customer = "18423568",
+                ZipCode = "18423568",
+                PromoCode = null
+            };
+
+            command.Validate();
+            Assert.AreEqual(true, command.Valid);
         }
 
         [TestMethod]
         [TestCategory("Handlers")]
         public void DadoQuePedidoEstaSemItensNaoDeveSerGerado()
         {
-            Assert.Fail();
+            var command = new CreateOrderCommand
+            {
+                Customer = "18423568",
+                ZipCode = "18423568",
+                PromoCode = "12345678"
+            };
+
+            var handler = new OrderHandler(
+                _customerRepository,
+                _deliveryFeeRepository,
+                _discountRepository,
+                _productRepository,
+                _orderRepository
+            );
+
+            handler.Handle(command);
+            Assert.AreEqual(true, command.Valid);
         }
 
         [TestMethod]
@@ -74,7 +118,7 @@ namespace Store.Tests.Handlers
         {
             var command = new CreateOrderCommand
             {
-                Customer = "12345678",
+                Customer = "18423568",
                 ZipCode = "13411080",
                 PromoCode = "12345678"
             };
@@ -91,7 +135,7 @@ namespace Store.Tests.Handlers
             );
 
             handler.Handle(command);
-            Assert.AreEqual(command.Valid, true);
+            Assert.AreEqual(true, command.Valid);
         }
     }
 }
