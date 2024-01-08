@@ -1,5 +1,4 @@
 ﻿using Store.Domain.Entities;
-using System.Linq;
 using Store.Domain.Queries;
 
 namespace Store.Tests.Queries

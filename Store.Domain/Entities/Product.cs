@@ -1,16 +1,16 @@
 namespace Store.Domain.Entities
 {
-  public class Product : Entity
-  {
-    public Product(string title, decimal price, bool active)
+    public class Product : Entity
     {
-      Title = title;
-      Price = price;
-      Active = active;
-    }
+        public Product(string title, decimal price, bool active)
+        {
+            Title = title;
+            Price = price;
+            Active = active;
+        }
 
-    public string Title { get; private set; }
-    public decimal Price { get; private set; }
-    public bool Active { get; private set; }
-  }
+        public string Title { get; private set; }
+        public decimal Price { get; private set; }
+        public bool Active { get; private set; }
+    }
 }

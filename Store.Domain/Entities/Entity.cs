@@ -2,13 +2,13 @@ using Flunt.Notifications;
 
 namespace Store.Domain.Entities
 {
-  public class Entity : Notifiable
-  {
-    public Entity()
+    public class Entity : Notifiable
     {
-      Id = Guid.NewGuid();
-    }
+        public Entity()
+        {
+            Id = Guid.NewGuid();
+        }
 
-    public Guid Id { get; private set; }
-  }
+        public Guid Id { get; private set; }
+    }
 }

@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using Store.Domain.Entities;
+﻿using Store.Domain.Entities;
+using System.Linq.Expressions;
 
 namespace Store.Domain.Queries
 {

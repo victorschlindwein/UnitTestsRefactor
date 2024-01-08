@@ -1,5 +1,4 @@
 ﻿using Store.Domain.Commands;
-using Store.Domain.Entities;
 using Store.Domain.Handlers;
 using Store.Domain.Repositories.Interfaces;
 using Store.Tests.Repositories;
