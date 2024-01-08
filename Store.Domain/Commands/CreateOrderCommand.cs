@@ -31,7 +31,13 @@ namespace Store.Domain.Commands
                 .Requires()
                 .HasMinLen(Customer, 3, "Customer", "Cliente inválido")
                 .HasLen(ZipCode, 8, "ZipCode", "CEP inválido")
+                .IsNotNull(Items, "Items", "O pedido deve ter pelo menos um item")
             );
+
+            if (!Items.Any())
+            {
+                AddNotification("Items", "O pedido deve ter pelo menos um item");
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Store.Domain.Commands;
+using Store.Domain.Entities;
 using Store.Domain.Handlers;
 using Store.Domain.Repositories.Interfaces;
 using Store.Tests.Repositories;
@@ -65,8 +66,11 @@ namespace Store.Tests.Handlers
             {
                 Customer = "18423568",
                 ZipCode = "18423568",
-                PromoCode = null
+                PromoCode = ""
             };
+
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
+            command.Items.Add(new CreateOrderItemCommand(Guid.NewGuid(), 1));
 
             command.Validate();
             Assert.AreEqual(true, command.Valid);
@@ -80,7 +84,7 @@ namespace Store.Tests.Handlers
             {
                 Customer = "18423568",
                 ZipCode = "18423568",
-                PromoCode = "12345678"
+                PromoCode = "12345678",
             };
 
             var handler = new OrderHandler(
@@ -92,7 +96,7 @@ namespace Store.Tests.Handlers
             );
 
             handler.Handle(command);
-            Assert.AreEqual(true, command.Valid);
+            Assert.AreEqual(false, command.Valid);
         }
 
         [TestMethod]
